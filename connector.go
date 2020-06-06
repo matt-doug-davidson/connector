@@ -80,7 +80,8 @@ func FormatESPTime(timestring string) string {
 	return utcTimeStr
 }
 
-func Decode(connectorMessage map[string]interface{}) map[string]interface{} {
+// Decode decodes the message
+func Decode(connectorMessage map[string]interface{}) (string, map[string]interface{}) {
 
 	snapshotMap := make(map[string]interface{})
 
@@ -109,5 +110,5 @@ func Decode(connectorMessage map[string]interface{}) map[string]interface{} {
 		}
 	}
 	snapshotMap["values"] = valuesSlice
-	return snapshotMap
+	return msg1.Entity, snapshotMap
 }
