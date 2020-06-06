@@ -79,3 +79,35 @@ func FormatESPTime(timestring string) string {
 	utcTimeStr := utcTime.Format("2006-01-02T15:04:05.000Z")
 	return utcTimeStr
 }
+
+func Decode(connectorMessage map[string]interface{}) map[string]interface{} {
+
+	snapshotMap := make(map[string]interface{})
+
+	msg := connectorMessage["msg"]
+	msg1 := msg.(ConnectorMessage)
+	snapshot := msg1.Snapshot
+	snapshotMap["datetime"] = snapshot.Datetime
+
+	var valuesSlice []interface{}
+	for _, value := range snapshot.Measurements {
+		field := value.Field
+		amount := value.Amount
+		attr := value.Attributes
+		if value.Attributes == "" {
+			value := map[string]interface{}{
+				"field":  field,
+				"amount": amount,
+			}
+			valuesSlice = append(valuesSlice, value)
+		} else {
+			value := map[string]interface{}{
+				"field":     field,
+				"amount":    amount,
+				"attribute": attr}
+			valuesSlice = append(valuesSlice, value)
+		}
+	}
+	snapshotMap["values"] = valuesSlice
+	return snapshotMap
+}
