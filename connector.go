@@ -61,8 +61,10 @@ func FormatESPTime(timestring string) string {
 	case 3:
 	}
 
-	// Remove the T between the date and time
+	// Remove the T and/or _ between the date and time
 	timeStr := strings.Replace(timestring, "T", " ", 1)
+	timeStr = strings.Replace(timestring, "_", " ", 1)
+	fmt.Println(timeStr)
 	// Add the time zone.
 	datetime := timeStr + " " + timeZone
 	// Convert from current location
@@ -105,7 +107,7 @@ func Decode(connectorMessage map[string]interface{}) (string, map[string]interfa
 			value := map[string]interface{}{
 				"field":     field,
 				"amount":    amount,
-				"attribute": attr}
+				"attribute": []byte(attr)}
 			valuesSlice = append(valuesSlice, value)
 		}
 	}
