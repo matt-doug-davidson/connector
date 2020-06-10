@@ -97,6 +97,8 @@ func Decode(connectorMessage map[string]interface{}) (string, map[string]interfa
 		field := value.Field
 		amount := value.Amount
 		attr := value.Attributes
+		fmt.Println("\nattr:\n", attr)
+		fmt.Printf("%T\n", attr)
 		if value.Attributes == "" {
 			value := map[string]interface{}{
 				"field":  field,
@@ -107,7 +109,7 @@ func Decode(connectorMessage map[string]interface{}) (string, map[string]interfa
 			value := map[string]interface{}{
 				"field":     field,
 				"amount":    amount,
-				"attribute": []byte(attr)}
+				"attribute": attr}
 			valuesSlice = append(valuesSlice, value)
 		}
 	}
