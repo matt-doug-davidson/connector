@@ -1,7 +1,6 @@
 package connector
 
 import (
-	"fmt"
 	"strings"
 	"time"
 )
@@ -17,7 +16,6 @@ func after(target string, after string) string {
 		return ""
 	}
 	return target[adjustedPos:len(target)]
-
 }
 
 // FormatESPTime format date/time to UTC value
@@ -29,7 +27,6 @@ func FormatESPTime(timestring string) string {
 
 	// Make sure the milliseconds have 3 digits
 	decimal := after(timestring, ".")
-	fmt.Println("decimal: ", decimal)
 	switch len(decimal) {
 	case 0:
 		timestring += ".000"
@@ -44,16 +41,13 @@ func FormatESPTime(timestring string) string {
 
 	// Remove the T and/or _ between the date and time
 	timeStr := strings.Replace(timestring, "T", " ", 1)
-	fmt.Println("timeStr ", timeStr)
 	timeStr = strings.Replace(timeStr, "_", " ", 1)
-	fmt.Println("timeStr ", timeStr)
 	// Add the time zone.
 	datetime := timeStr + " " + timeZone
-	fmt.Println("datetime ", datetime)
 	// Convert from current location
 	t, err := time.Parse("2006-01-02 15:04:05.000 MST", datetime)
 	if err != nil {
-		fmt.Println(err.Error())
+		return ""
 	}
 
 	// Set the location to UTC
